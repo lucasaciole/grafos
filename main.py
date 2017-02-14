@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, redirect
 import json
 app = Flask(__name__)
 app.config["APPLICATION_ROOT"] = "/areadetrabalho"
