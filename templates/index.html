@@ -1,0 +1,77 @@
+{% extends "default_template.html" %}
+{% block content %}
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 id="homeHeading">A Área de Trabalho</h1>
+                <hr>
+                <p>Um blog sobre Grafos</p>
+                <h2>Confira os projetos desenvolvidos para a disciplina de Grafos!</h2>
+                <br />
+                <div class="row">
+                    <div class="col-lg-3">
+                        <a class="main-item" href="/projects/markov-snakes-ladders">
+                            <h1>T2</h1>
+                            <p class="lead">Snakes and Ladders</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-3">
+                        <a class="main-item" href="/projects/mst-prim">
+                            <h1>T3</h1>
+                            <p class="lead">MST - Prim</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-3">
+                        <a class="main-item" href="/projects/mst-dijkstra">
+                            <h1>T4</h1>
+                            <p class="lead">MST - Dijkstra</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-3">
+                        <a class="main-item" href="/projects/metodo-hungaro">
+                            <h1>T5</h1>
+                            <p class="lead">Algoritmo Húngaro</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <a href="#articles" class="btn btn-primary btn-xl page-scroll">
+                Artigos <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+            </a>
+        </div>
+    </header>
+    <section id="articles" class="bg-primary">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">Confira alguns conteúdos interessantes</h2>
+                    <hr class="light">
+                    <p class="text-faded">A Área de trabalho ainda juntou alguns artigos sobre grafos que podem te ajudar a entender melhor essa matéria. Confira:</p>
+                    <div class="article-container">
+                        <div class="container-fluid">
+                            <div class="row no-gutter">
+                                {% for article in articles %}
+                                    <div class="col-lg-4 col-sm-6">
+                                        <a href="/article/{{article['path']}}" class="article-box">
+                                            <img src="{{article['image']}}" class="img-responsive" height="200" width="250" alt="">
+                                            <div class="article-box-caption">
+                                                <div class="article-box-caption-content">
+                                                    <div class="article-category text-faded">
+                                                        Artigo
+                                                    </div>
+                                                    <div class="article-name">
+                                                        {{article['name']}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endfor %}                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>    
+{% endblock %}  

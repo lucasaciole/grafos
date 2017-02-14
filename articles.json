@@ -1,0 +1,47 @@
+{
+	"articles": [{
+		"name": "Grafos Eulerianos",
+		"path": "eulerianos",
+		"image": "static/img/grafo_euleriano.png"
+	}, 
+	{
+		"name":"Grafos Hamiltonianos",
+		"path":"hamiltonianos",
+		"image": "static/img/grafo_hamiltoniano.gif"
+	},
+	{
+		"name":"Grafos Planares",
+		"path":"planaridade",
+		"image": "static/img/grafo_planar.png"	
+	},
+	{
+		"name": "Grafos Eulerianos",
+		"path": "eulerianos",
+		"image": "static/img/grafo_euleriano.png"
+	}, 
+	{
+		"name":"Grafos Hamiltonianos",
+		"path":"hamiltonianos",
+		"image": "static/img/grafo_hamiltoniano.gif"
+	},
+	{
+		"name":"Grafos Planares",
+		"path":"planaridade",
+		"image": "static/img/grafo_planar.png"	
+	},
+	{
+		"name": "Grafos Eulerianos",
+		"path": "eulerianos",
+		"image": "static/img/grafo_euleriano.png"
+	}, 
+	{
+		"name":"Grafos Hamiltonianos",
+		"path":"hamiltonianos",
+		"image": "static/img/grafo_hamiltoniano.gif"
+	},
+	{
+		"name":"Grafos Planares",
+		"path":"planaridade",
+		"image": "static/img/grafo_planar.png"	
+	}]
+}

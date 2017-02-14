@@ -1,0 +1,4 @@
+decorator
+requests
+six
+pytz
