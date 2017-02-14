@@ -44,16 +44,26 @@
     </div>
     <div class="row">
         <div class="col-lg-6 col-lg-offset-3">
-            <!-- HTML generated using hilite.me -->
-            <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-                <pre style="margin: 0; line-height: 125%">
-<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">power_method</span>(M, w0, k):
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">power_method</span>(M, w0, k):
     result <span style="color: #333333">=</span> copy<span style="color: #333333">.</span>deepcopy(M)
     result <span style="color: #333333">=</span> multiply_matrix([w0], result)
     <span style="color: #008800; font-weight: bold">for</span> _ <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(k): result <span style="color: #333333">=</span> multiply_matrix(result, M)
     <span style="color: #008800; font-weight: bold">return</span> result
-                </pre>
-            </div>
+
+
+
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">multiply_matrix</span>(A, B):
+    result <span style="color: #333333">=</span> [[<span style="color: #0000DD; font-weight: bold">0</span>]<span style="color: #333333">*</span><span style="color: #007020">len</span>(B[<span style="color: #0000DD; font-weight: bold">0</span>]) <span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #007020">len</span>(A))]
+    <span style="color: #888888"># iterate through rows of A</span>
+    <span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #007020">len</span>(A)):
+       <span style="color: #888888"># iterate through columns of B</span>
+       <span style="color: #008800; font-weight: bold">for</span> j <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #007020">len</span>(B[<span style="color: #0000DD; font-weight: bold">0</span>])):
+           <span style="color: #888888"># iterate through rows of B</span>
+           <span style="color: #008800; font-weight: bold">for</span> k <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #007020">len</span>(B)):
+               result[i][j] <span style="color: #333333">+=</span> A[i][k] <span style="color: #333333">*</span> B[k][j]
+    <span style="color: #008800; font-weight: bold">return</span> result
+</pre></div>
+
         </div>
     </div>
     <div class="row">
@@ -63,7 +73,96 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-        <p class="text-center"><b>Código 1.1</b> Power Method implementado em Python.</p>
+            <p>O resto do código lê a matriz de adjacência de um arquivo e utiliza o Power Method para calcular a distribuição estacionária. Note que atribuimos na variável w, o vetor de probabilidades iniciais para o jogo. Como os jogadores sempre começam na primeira casa, o vetor é totalmente zerado, exceto na primeira posição:</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+        <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">matrix_file <span style="color: #333333">=</span> <span style="color: #007020">open</span>(<span style="background-color: #fff0f0">&quot;snakes_matrix.txt&quot;</span>, <span style="background-color: #fff0f0">&quot;r&quot;</span>)
+matrix <span style="color: #333333">=</span> [<span style="color: #007020">list</span>(<span style="color: #007020">map</span>(<span style="color: #007020">float</span>,line<span style="color: #333333">.</span>split(<span style="background-color: #fff0f0">&quot;,&quot;</span>))) <span style="color: #008800; font-weight: bold">for</span> line <span style="color: #000000; font-weight: bold">in</span> matrix_file]
+w <span style="color: #333333">=</span> [<span style="color: #0000DD; font-weight: bold">1</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>]
+result <span style="color: #333333">=</span> power_method(matrix,w,<span style="color: #0000DD; font-weight: bold">100</span>)
+<span style="color: #008800; font-weight: bold">print</span>(result[<span style="color: #0000DD; font-weight: bold">0</span>][<span style="color: #0000DD; font-weight: bold">35</span>])
+</pre></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+        <br/>
+        <p>O resultado do script acima retorna a probabilidade de se atingir a casa final utilizando como parâmetro 100 interações do Power Method. Utilizando os dados que criamos seguindo esse procedimento, o resultado é:</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #6600EE; font-weight: bold">0.0018540048143700673</span>
+</pre></div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+        <br/>
+        <p>Isso significa que a chance de um jogador estar na casa 36 após o periodo determinado no Power Method é de 0,1%.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">for</span> index, value <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">enumerate</span>(result[<span style="color: #0000DD; font-weight: bold">0</span>]):
+    <span style="color: #008800; font-weight: bold">print</span>(index <span style="color: #333333">+</span> <span style="color: #0000DD; font-weight: bold">1</span>, value) <span style="color: #888888"># +1 para representar corretamente o numero da casa</span>
+
+<span style="color: #0000DD; font-weight: bold">1</span> <span style="color: #6600EE; font-weight: bold">0.0</span>
+<span style="color: #0000DD; font-weight: bold">2</span> <span style="color: #6600EE; font-weight: bold">0.0</span>
+<span style="color: #0000DD; font-weight: bold">3</span> <span style="color: #6600EE; font-weight: bold">0.0</span>
+<span style="color: #0000DD; font-weight: bold">4</span> <span style="color: #6600EE; font-weight: bold">0.001927891325030704</span>
+<span style="color: #0000DD; font-weight: bold">5</span> <span style="color: #6600EE; font-weight: bold">0.0009938069501336938</span>
+<span style="color: #0000DD; font-weight: bold">6</span> <span style="color: #6600EE; font-weight: bold">0.0009938069501336938</span>
+<span style="color: #0000DD; font-weight: bold">7</span> <span style="color: #6600EE; font-weight: bold">0.001536889407010093</span>
+<span style="color: #0000DD; font-weight: bold">8</span> <span style="color: #6600EE; font-weight: bold">0.001304545598105039</span>
+<span style="color: #0000DD; font-weight: bold">9</span> <span style="color: #6600EE; font-weight: bold">0.0014647277199854273</span>
+<span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #6600EE; font-weight: bold">0.0006724785908837525</span>
+<span style="color: #0000DD; font-weight: bold">11</span> <span style="color: #6600EE; font-weight: bold">0.0003466553295728681</span>
+<span style="color: #0000DD; font-weight: bold">12</span> <span style="color: #6600EE; font-weight: bold">0.002379357249473724</span>
+<span style="color: #0000DD; font-weight: bold">13</span> <span style="color: #6600EE; font-weight: bold">0.0014052297379165382</span>
+<span style="color: #0000DD; font-weight: bold">14</span> <span style="color: #6600EE; font-weight: bold">0.0019509131182260681</span>
+<span style="color: #0000DD; font-weight: bold">15</span> <span style="color: #6600EE; font-weight: bold">0.0017300546517091584</span>
+<span style="color: #0000DD; font-weight: bold">16</span> <span style="color: #6600EE; font-weight: bold">0.0018974981763065077</span>
+<span style="color: #0000DD; font-weight: bold">17</span> <span style="color: #6600EE; font-weight: bold">0.00186996339964019</span>
+<span style="color: #0000DD; font-weight: bold">18</span> <span style="color: #6600EE; font-weight: bold">0.0009781393892025218</span>
+<span style="color: #0000DD; font-weight: bold">19</span> <span style="color: #6600EE; font-weight: bold">0.0</span>
+<span style="color: #0000DD; font-weight: bold">20</span> <span style="color: #6600EE; font-weight: bold">0.0</span>
+<span style="color: #0000DD; font-weight: bold">21</span> <span style="color: #6600EE; font-weight: bold">0.0</span>
+<span style="color: #0000DD; font-weight: bold">22</span> <span style="color: #6600EE; font-weight: bold">0.0</span>
+<span style="color: #0000DD; font-weight: bold">23</span> <span style="color: #6600EE; font-weight: bold">0.0</span>
+<span style="color: #0000DD; font-weight: bold">24</span> <span style="color: #6600EE; font-weight: bold">0.0</span>
+<span style="color: #0000DD; font-weight: bold">25</span> <span style="color: #6600EE; font-weight: bold">0.0</span>
+<span style="color: #0000DD; font-weight: bold">26</span> <span style="color: #6600EE; font-weight: bold">0.0</span>
+<span style="color: #0000DD; font-weight: bold">27</span> <span style="color: #6600EE; font-weight: bold">0.001510101754845458</span>
+<span style="color: #0000DD; font-weight: bold">28</span> <span style="color: #6600EE; font-weight: bold">0.0007784411716407402</span>
+<span style="color: #0000DD; font-weight: bold">29</span> <span style="color: #6600EE; font-weight: bold">0.0021881596032865525</span>
+<span style="color: #0000DD; font-weight: bold">30</span> <span style="color: #6600EE; font-weight: bold">0.010939984677743219</span>
+<span style="color: #0000DD; font-weight: bold">31</span> <span style="color: #6600EE; font-weight: bold">0.006767413953267579</span>
+<span style="color: #0000DD; font-weight: bold">32</span> <span style="color: #6600EE; font-weight: bold">0.009127968623413531</span>
+<span style="color: #0000DD; font-weight: bold">33</span> <span style="color: #6600EE; font-weight: bold">0.0034885271497460753</span>
+<span style="color: #0000DD; font-weight: bold">34</span> <span style="color: #6600EE; font-weight: bold">0.001798297196354531</span>
+<span style="color: #0000DD; font-weight: bold">35</span> <span style="color: #6600EE; font-weight: bold">0.001798297196354531</span>
+<span style="color: #0000DD; font-weight: bold">36</span> <span style="color: #6600EE; font-weight: bold">0.0018540048143700673</span>
+</pre></div>
+        <p class="text-center"><b>Código 1.2</b> Análisando melhor o resultado.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+        <p>Rodando o script acima, ainda temos informações muito interessantes:</p>
+        <ul>
+            <li>As casas 1, 2, 3 ficam inacessíveis após um longo período, pois é possivel escorregar de uma cobra apenas a partir da casa 4;</li>
+            <li>As casas 19 a 26 são inacessíveis, pois não existe cobras ou escadas que dão nesse trecho, e não é possivel acessar a casa 19 das casas 17 e 18, pois em 17 temos uma cobra e em 18 temos uma escada.</li>
+            <li>As casas com maior probabilidade são: 30, 32, 31 e 33.</li>
+        </ul>
+        <p> E com isso, concluimos nossa análise.</p>
         </div>
     </div>
 </div>
