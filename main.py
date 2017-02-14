@@ -3,14 +3,14 @@ import json
 app = Flask(__name__)
 app.config["APPLICATION_ROOT"] = "/areadetrabalho"
 
-@app.route('/')
+@app.route('/areadetrabalho/')
 def index():
     with open('/home/lucassug/code/grafos/articles.json') as data_file:
         articles = json.load(data_file)
 
     return render_template("index.html", articles=articles['articles'])
 
-@app.route('/projects/<name>/')
+@app.route('/areadetrabalho/projects/<name>/')
 def projects(name):
     if name == "markov-snakes-ladders":
         return render_template("markov.html")
