@@ -3,6 +3,10 @@ import json
 app = Flask(__name__)
 app.config["APPLICATION_ROOT"] = "/areadetrabalho"
 
+@app.route('/'):
+def root():
+    return redirect(url_for('index'))
+
 @app.route('/areadetrabalho/')
 def index():
     with open('/home/lucassug/code/grafos/articles.json') as data_file:
