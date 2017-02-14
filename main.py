@@ -3,7 +3,7 @@ import json
 app = Flask(__name__)
 app.config["APPLICATION_ROOT"] = "/areadetrabalho"
 
-@app.route('/'):
+@app.route('/')
 def root():
     return redirect(url_for('index'))
 
