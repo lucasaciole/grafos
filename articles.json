@@ -3,7 +3,14 @@
 		"name": "Representando Redes Sociais com o Plot.ly",
 		"url": "https://plot.ly/ipython-notebooks/network-graphs/",
 		"type": "Link",
-		"image": "/static/img/grafo_planar.png"
+		"image": "/static/img/newtork-example.png"
+	
+	},
+	{
+		"name": "Tutorial Networkx (em inglês)",
+		"url": "http://snap.stanford.edu/class/cs224w-2011/nx_tutorial/nx_tutorial.pdf",
+		"type": "Link",
+		"image": "/static/img/tutorial.png"
 	
 	},
 	{
