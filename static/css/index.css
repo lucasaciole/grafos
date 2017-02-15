@@ -22,6 +22,12 @@
 	margin: 0;
 }
 
+.article-container {
+  max-height: 450px;
+  overflow-y: auto;
+  width: 100%;
+}
+
 .article-box > img {
     height: 200px;
 }

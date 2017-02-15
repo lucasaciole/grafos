@@ -1,5 +1,6 @@
 {
-	"articles": [{
+	"articles": [
+	{
 		"name": "Representando Redes Sociais com o Plot.ly",
 		"url": "https://plot.ly/ipython-notebooks/network-graphs/",
 		"type": "Link",
@@ -30,6 +31,20 @@
 		"url": "https://www.codeschool.com/learn/python",
 		"type": "Link",
 		"image": "/static/img/code_school.png"
+	
+	},
+	{
+		"name": "Artigo sobre a Coloração de Grafos aplicadas ao Sudoku",
+		"url": "https://www.researchgate.net/publication/260517476_TECNICAS_DE_COLORACAO_DE_GRAFOS_APLICADAS_A_RESOLUCAO_DE_QUEBRA-CABECAS_DO_TIPO_SUDOKU",
+		"type": "Link",
+		"image": "/static/img/sudoku.png"
+	
+	},
+	{
+		"name": "Emparelhamento em Grafos Bipartidos",
+		"url": "https://www.ime.usp.br/~pf/algoritmos_em_grafos/aulas/emparelha.html",
+		"type": "Link",
+		"image": "/static/img/emparelhamento.png"
 	
 	}]
 }
