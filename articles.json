@@ -14,21 +14,15 @@
 	
 	},
 	{
-		"name": "Grafos Eulerianos",
-		"path": "not-available",
-		"type": "Artigo",
+		"name": "Grafos Eulerianos e Hamiltonianos",
+		"url": "http://www.professeurs.polymtl.ca/michel.gagnon/Disciplinas/Bac/Grafos/EulerHam/euler_ham.html",
+		"type": "Link",
 		"image": "/static/img/grafo_euleriano.png"
-	}, 
-	{
-		"name":"Grafos Hamiltonianos",
-		"path":"not-available",
-		"type": "Artigo",
-		"image": "/static/img/grafo_hamiltoniano.gif"
 	},
 	{
 		"name":"Grafos Planares",
-		"path": "not-available",
-		"type": "Artigo",
+		"url": "https://www.ime.usp.br/~pf/mac5827/aulas/planar.html",
+		"type": "Link",
 		"image": "/static/img/grafo_planar.png"	
 	},
 	{
