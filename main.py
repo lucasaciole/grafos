@@ -33,7 +33,7 @@ def projects(name):
         return render_template("dijkstra.html")
 
     if name == "sudoku":
-        return render_template("unavailable_article.html")
+        return render_template("sudoku.html")
 
     return render_template("404.html"), 404
 

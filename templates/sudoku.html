@@ -1,0 +1,609 @@
+{% extends "article_template.html" %}
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <div class="col-lg-12">
+            <h1>T5</h1>
+            <p class="lead">O Problema de Coloração de Grafos</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="text-center">Coloração de Grafos</h1>
+            <p> Coloração de grafos é um caso especial de rotulagem de grafos; é uma atribuição de rótulos tradicionalmente chamados "cores" a elementos de um grafo sujeita a certas restrições.</p>
+            <p> Uma <b>coloração de vértices</b> é uma forma de colorir os vértices de um grafo tal que não haja dois vértices adjacentes que compartilhem a mesma cor. Da mesma forma, uma <b>coloração de arestas</b> atribui uma cor para cada aresta de modo que não haja duas arestas adjacentes da mesma cor.</p>
+            <p> Chamamos de k-coloração uma coloração de um grafo composta por k cores. O menor número de cores necessárias para colorir um grafo G é chamado de número cromático de K. Ele é representado por &Chi;(G).</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="text-center">Grafos Regulares</h1>
+            <p>Um grafo regular é um grafo cujos vértices possuem o mesmo número de arestas, e portanto, o mesmo grau. Podemos chamar um grafo regular de grafo k-regular, onde k é o grau de seus vértices.</p>            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="text-center">O Sudoku</h1>
+            <p>O Sudoku é um jogo de quebra-cabeça popular cujo objetivo é completar uma grade com os números de 1 a 9. O posicionamento dos números deve levar em conta algumas regras, o que vai depender do estilo do Sudoku que está sendo jogado. Os estilos de Sudoku mais famosos são: o normal, o Mini Sudoku, o Cross Sum Sudoku, o Killer Sudoku, o Hyper Sudoku e o Sudoku Desigual. </p>
+            <p>O Sudoku tradicional é constituído por 81 células divididas em 9 grades (3x3 cada), sendo que algumas dessas células já estão preenchidas. A quantidade e a disposição dessas células preenchidas indicam o dificuldade do jogo. Ou seja, quanto menos números aparecem no começo, mais difícil o jogo é. As regras de restrição são bem simples: basta não repetir os números na mesma coluna, na mesma linha nem mesma grade 3x3.</p>
+            <p> Podemos modelar um grafo que simula a grade do sudoku, seguindo algumas direções:</p>
+            <ul>
+                <li>O número de vértices é 9x9 = 81;</li>
+                <li>Um vértice v<sub>ij</sub> se liga por uma aresta a todos os vértices na mesma linha i.</li>
+                <li>Um vértice v<sub>ij</sub> se liga por uma aresta a todos os vértices na mesma coluna j.</li>
+                <li>Um vértice v<sub>ij</sub> se liga por uma aresta a todos os vértices na mesma grade 3x3.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <iframe width="900" height="800" frameborder="0" scrolling="no" src="//plot.ly/~lucasaciole/50.embed"></iframe>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p>Como podemos notar pelo grafo simulado, a grade do Sudoku é um grafo 20-regular.</p>
+            <p>O problema proposto nesse projeto é que, dado uma instância do problema do Sudoku, encontre-se uma solução de coloração de vértices utilizando o Algoritmo Wesh-Powell.</p>
+            <img class="center-block" src="/static/img/sudoku_t5.png" placeholder="tabuleiro do sudoku" width="600px"></img>
+            <p class="text-center"><b>Imagem 4.1</b> Tabuleiro de exemplo utilizado pelo projeto.</p>      
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="text-center">O Algoritmo de Welsh-Powell</h1>
+            <p>O Algoritmo WP foi proposto por Welsh e Powell (1975). É um algoritmo guloso, visto que determina a cor do vértice j após os j-1 vértices terem sido coloridos, tendo sempre como propósito minimizar o número de cores necessárias. Podemos descreve-lo atráves do seguinte pseudo-código:</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .2em;"><table><tr><td><pre style="margin: 0; padding-left:0.2em; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></td><td><pre style="margin: 0; line-height: 125%; padding-left:0.2em">Algoritmo WP(G=(V,E))
+inicio
+Ordenar os vértices {x1, x2, ..., xn} tq grau(xi) &gt;= grau(xi+1)
+para i&lt;-2 até n faça  {inicilizar conjuntos de cores vazios}
+   Ci &lt;- {}
+C1 &lt;- {x1} {x1 recebe cor 1}
+para i &lt;- 2 até n faça
+   k = Mínimo{j | Adj(xi) Inter Cj = {}, j=0, 1, ..., n
+   ck = Ck U {xj}
+fim-para
+retornar Máximo{ j | Cj &lt;&gt; {}, j=1, 2, ..., n}
+fim.
+</pre></td></tr></table></div>     
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="text-center"><b>Código 5.1</b> Algoritmo de Welsh-Powell em pseudo-código.</p>
+            <p>Onde G = (V,E) é o grafo a ser colorido e Ci é o conjunto de cores disponíveis para o vértice Vi. Implementando em python, temos então:</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .2em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">wp_algorithm</span>(G, numberForNode):
+    <span style="color: #DD4422">&quot;&quot;&quot;Completes a Sudoku puzzle using the Welsh-Powell Algorithm&quot;&quot;&quot;</span>
+
+    stop <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">False</span>
+
+    <span style="color: #888888"># Orders nodes ascending by size of remaining possible numbers</span>
+    nodes_ordered_by_available_numbers <span style="color: #333333">=</span> {node:<span style="color: #007020">len</span>(numberForNode[node]) <span style="color: #008800; font-weight: bold">for</span> node <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>nodes()}
+    nodes_ordered_by_available_numbers <span style="color: #333333">=</span> <span style="color: #007020">sorted</span>(nodes_ordered_by_available_numbers, key<span style="color: #333333">=</span>nodes_ordered_by_available_numbers<span style="color: #333333">.</span>get)
+    
+    <span style="color: #008800; font-weight: bold">while</span> <span style="color: #007020">len</span>(nodes_ordered_by_available_numbers) <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">0</span>:
+        node <span style="color: #333333">=</span> nodes_ordered_by_available_numbers<span style="color: #333333">.</span>pop(<span style="color: #0000DD; font-weight: bold">0</span>)
+        <span style="color: #888888"># If no numbers are left for current node, puzzle is impossible</span>
+        <span style="color: #008800; font-weight: bold">if</span> <span style="color: #007020">len</span>(numberForNode[node]) <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">1</span>:
+            <span style="color: #007020">print</span>(<span style="background-color: #fff0f0">&quot;Could not solve puzzle.&quot;</span>)
+            <span style="color: #008800; font-weight: bold">return</span>
+        
+        number <span style="color: #333333">=</span> numberForNode[node][<span style="color: #0000DD; font-weight: bold">0</span>] <span style="color: #888888"># Pick first possible number</span>
+        G<span style="color: #333333">.</span>node[node][<span style="background-color: #fff0f0">&#39;number&#39;</span>] <span style="color: #333333">=</span> number
+        <span style="color: #008800; font-weight: bold">for</span> v <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>neighbors(node):
+            <span style="color: #888888"># Remove used number from possibility list of all neighbors of current node</span>
+            <span style="color: #008800; font-weight: bold">if</span> number <span style="color: #000000; font-weight: bold">in</span> colorForNode[v]:
+                colorForNode[v]<span style="color: #333333">.</span>remove(number)                
+        nodes_ordered_by_available_numbers <span style="color: #333333">=</span> {node:<span style="color: #007020">len</span>(numberForNode[node]) <span style="color: #008800; font-weight: bold">for</span> node <span style="color: #000000; font-weight: bold">in</span> nodes_ordered_by_available_numbers}
+        nodes_ordered_by_available_numbers <span style="color: #333333">=</span> <span style="color: #007020">sorted</span>(nodes_ordered_by_available_numbers, key<span style="color: #333333">=</span>nodes_ordered_by_available_numbers<span style="color: #333333">.</span>get)
+</pre></td></tr></table></div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="text-center"><b>Código 5.2</b> Algoritmo de Welsh-Powell em Python.</p>
+            <p>No código acima, apenas adaptamos um pouco o código, transformando o termo "cor" para "número", visto que estamos usando a coloração para completar a grade do Sudoku com números. Além disso, adicionamos uma outra heurística para seleção do número a ser utilizado: Ao invés de ordernar-mos os vértices por grau, ordenamo-os por quantidade de números disponíveis para preenchimento. Assim, sempre vamos procurar preencher os campos que possuem apenas um número como alternativa primeiro.</p>
+            <p>Para podermos utilizar esse código corretamente, foram definidas ainda duas funções auxliares: A <span style="color: #0066BB; font-weight: bold">generate_sudoku_graph</span>(), que cria o grafo apresentado na Imagem 4.1 e a função <span style="color: #0066BB; font-weight: bold">initialize_graph_color</span>(G, puzzle, colorForNode), que dada uma instância da grade do sudoku, já atualiza a lista de números disponiveis para cada vértice do nosso grafo.
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">generate_sudoku_graph</span>():
+    <span style="color: #DD4422">&quot;&quot;&quot;Generates Graph based on a Sudoku puzzle</span>
+<span style="color: #DD4422">    &quot;&quot;&quot;</span>
+    G <span style="color: #333333">=</span> nx<span style="color: #333333">.</span>Graph()
+    <span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+        <span style="color: #008800; font-weight: bold">for</span> j <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+            <span style="color: #008800; font-weight: bold">if</span> i <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">4</span>:
+                <span style="color: #008800; font-weight: bold">if</span> j <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">4</span>:
+                    G<span style="color: #333333">.</span>add_node(<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j),row<span style="color: #333333">=</span>i,column<span style="color: #333333">=</span>j,cube<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">1</span>)
+                <span style="color: #008800; font-weight: bold">elif</span> j <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">7</span>:
+                    G<span style="color: #333333">.</span>add_node(<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j),row<span style="color: #333333">=</span>i,column<span style="color: #333333">=</span>j,cube<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">4</span>)
+                <span style="color: #008800; font-weight: bold">else</span>:
+                    G<span style="color: #333333">.</span>add_node(<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j),row<span style="color: #333333">=</span>i,column<span style="color: #333333">=</span>j,cube<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">7</span>)
+            <span style="color: #008800; font-weight: bold">elif</span> i <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">7</span>:
+                <span style="color: #008800; font-weight: bold">if</span> j <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">4</span>:
+                    G<span style="color: #333333">.</span>add_node(<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j),row<span style="color: #333333">=</span>i,column<span style="color: #333333">=</span>j,cube<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">2</span>)
+                <span style="color: #008800; font-weight: bold">elif</span> j <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">7</span>:
+                    G<span style="color: #333333">.</span>add_node(<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j),row<span style="color: #333333">=</span>i,column<span style="color: #333333">=</span>j,cube<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">5</span>)
+                <span style="color: #008800; font-weight: bold">else</span>:
+                    G<span style="color: #333333">.</span>add_node(<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j),row<span style="color: #333333">=</span>i,column<span style="color: #333333">=</span>j,cube<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">8</span>)
+            <span style="color: #008800; font-weight: bold">else</span>:
+                <span style="color: #008800; font-weight: bold">if</span> j <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">4</span>:
+                    G<span style="color: #333333">.</span>add_node(<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j),row<span style="color: #333333">=</span>i,column<span style="color: #333333">=</span>j,cube<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">3</span>)
+                <span style="color: #008800; font-weight: bold">elif</span> j <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">7</span>:
+                    G<span style="color: #333333">.</span>add_node(<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j),row<span style="color: #333333">=</span>i,column<span style="color: #333333">=</span>j,cube<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">6</span>)
+                <span style="color: #008800; font-weight: bold">else</span>:
+                    G<span style="color: #333333">.</span>add_node(<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j),row<span style="color: #333333">=</span>i,column<span style="color: #333333">=</span>j,cube<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">9</span>)
+    
+    <span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+        edgelist <span style="color: #333333">=</span> [node <span style="color: #008800; font-weight: bold">for</span> node, data <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>nodes(data<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">True</span>) <span style="color: #008800; font-weight: bold">if</span> data[<span style="background-color: #fff0f0">&#39;cube&#39;</span>] <span style="color: #333333">==</span> i]
+        edgelist <span style="color: #333333">=</span> [edge <span style="color: #008800; font-weight: bold">for</span> edge <span style="color: #000000; font-weight: bold">in</span> itertools<span style="color: #333333">.</span>product(edgelist,edgelist) <span style="color: #008800; font-weight: bold">if</span> edge[<span style="color: #0000DD; font-weight: bold">0</span>] <span style="color: #333333">!=</span> edge[<span style="color: #0000DD; font-weight: bold">1</span>]]
+        G<span style="color: #333333">.</span>add_edges_from(edgelist)
+        edgelist <span style="color: #333333">=</span> [node <span style="color: #008800; font-weight: bold">for</span> node, data <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>nodes(data<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">True</span>) <span style="color: #008800; font-weight: bold">if</span> data[<span style="background-color: #fff0f0">&#39;row&#39;</span>] <span style="color: #333333">==</span> i]
+        edgelist <span style="color: #333333">=</span> [edge <span style="color: #008800; font-weight: bold">for</span> edge <span style="color: #000000; font-weight: bold">in</span> itertools<span style="color: #333333">.</span>product(edgelist,edgelist) <span style="color: #008800; font-weight: bold">if</span> edge[<span style="color: #0000DD; font-weight: bold">0</span>] <span style="color: #333333">!=</span> edge[<span style="color: #0000DD; font-weight: bold">1</span>]]
+        G<span style="color: #333333">.</span>add_edges_from(edgelist)
+        edgelist <span style="color: #333333">=</span> [node <span style="color: #008800; font-weight: bold">for</span> node, data <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>nodes(data<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">True</span>) <span style="color: #008800; font-weight: bold">if</span> data[<span style="background-color: #fff0f0">&#39;column&#39;</span>] <span style="color: #333333">==</span> i]
+        edgelist <span style="color: #333333">=</span> [edge <span style="color: #008800; font-weight: bold">for</span> edge <span style="color: #000000; font-weight: bold">in</span> itertools<span style="color: #333333">.</span>product(edgelist,edgelist) <span style="color: #008800; font-weight: bold">if</span> edge[<span style="color: #0000DD; font-weight: bold">0</span>] <span style="color: #333333">!=</span> edge[<span style="color: #0000DD; font-weight: bold">1</span>]]
+        G<span style="color: #333333">.</span>add_edges_from(edgelist)
+
+    <span style="color: #008800; font-weight: bold">return</span> G
+</pre></td></tr></table></div>
+            <p class="text-center"><b>Código 5.3</b> Código da função <span style="color: #0066BB; font-weight: bold">generate_sudoku_graph</span>() em Python.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">1
+2
+3
+4
+5
+6
+7</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">initialize_graph_color</span>(G, puzzle, colorForNode):
+    <span style="color: #DD4422">&quot;&quot;&quot;Updates color array for each node with given puzzle color array&quot;&quot;&quot;</span>
+    <span style="color: #008800; font-weight: bold">for</span> node, number <span style="color: #000000; font-weight: bold">in</span> puzzle:
+        G<span style="color: #333333">.</span>node[node][<span style="background-color: #fff0f0">&#39;number&#39;</span>] <span style="color: #333333">=</span> number
+        <span style="color: #008800; font-weight: bold">for</span> neighbor <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>neighbors(node):
+            <span style="color: #008800; font-weight: bold">if</span> number <span style="color: #000000; font-weight: bold">in</span> colorForNode[neighbor]:
+                colorForNode[neighbor]<span style="color: #333333">.</span>remove(number)
+</pre></td></tr></table></div>
+            <p class="text-center"><b>Código 5.4</b> Código da função <span style="color: #0066BB; font-weight: bold">initialize_graph_color</span> em Python.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p>Para gerar então uma solução para a instância do sudoku da Imagem 4.1, usa-se o seguinte código:</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144</pre></td><td><pre style="margin: 0; line-height: 125%">G <span style="color: #333333">=</span> generate_sudoku_graph()
+
+<span style="color: #888888"># Sets existing numbers from given puzzle    </span>
+puzzle <span style="color: #333333">=</span> [(<span style="background-color: #fff0f0">&#39;v11&#39;</span>,<span style="color: #0000DD; font-weight: bold">9</span>), (<span style="background-color: #fff0f0">&#39;v12&#39;</span>,<span style="color: #0000DD; font-weight: bold">5</span>), (<span style="background-color: #fff0f0">&#39;v16&#39;</span>,<span style="color: #0000DD; font-weight: bold">1</span>), (<span style="background-color: #fff0f0">&#39;v19&#39;</span>,<span style="color: #0000DD; font-weight: bold">8</span>),
+          (<span style="background-color: #fff0f0">&#39;v22&#39;</span>,<span style="color: #0000DD; font-weight: bold">2</span>), (<span style="background-color: #fff0f0">&#39;v23&#39;</span>,<span style="color: #0000DD; font-weight: bold">1</span>), (<span style="background-color: #fff0f0">&#39;v24&#39;</span>,<span style="color: #0000DD; font-weight: bold">8</span>), (<span style="background-color: #fff0f0">&#39;v25&#39;</span>,<span style="color: #0000DD; font-weight: bold">9</span>), (<span style="background-color: #fff0f0">&#39;v27&#39;</span>,<span style="color: #0000DD; font-weight: bold">6</span>),
+          (<span style="background-color: #fff0f0">&#39;v31&#39;</span>,<span style="color: #0000DD; font-weight: bold">3</span>), (<span style="background-color: #fff0f0">&#39;v35&#39;</span>,<span style="color: #0000DD; font-weight: bold">4</span>), (<span style="background-color: #fff0f0">&#39;v36&#39;</span>,<span style="color: #0000DD; font-weight: bold">2</span>), (<span style="background-color: #fff0f0">&#39;v37&#39;</span>,<span style="color: #0000DD; font-weight: bold">1</span>), (<span style="background-color: #fff0f0">&#39;v38&#39;</span>,<span style="color: #0000DD; font-weight: bold">5</span>),(<span style="background-color: #fff0f0">&#39;v39&#39;</span>,<span style="color: #0000DD; font-weight: bold">9</span>),
+          (<span style="background-color: #fff0f0">&#39;v41&#39;</span>,<span style="color: #0000DD; font-weight: bold">2</span>), (<span style="background-color: #fff0f0">&#39;v42&#39;</span>,<span style="color: #0000DD; font-weight: bold">4</span>), (<span style="background-color: #fff0f0">&#39;v45&#39;</span>,<span style="color: #0000DD; font-weight: bold">7</span>), (<span style="background-color: #fff0f0">&#39;v46&#39;</span>,<span style="color: #0000DD; font-weight: bold">8</span>), (<span style="background-color: #fff0f0">&#39;v49&#39;</span>,<span style="color: #0000DD; font-weight: bold">1</span>),
+          (<span style="background-color: #fff0f0">&#39;v51&#39;</span>,<span style="color: #0000DD; font-weight: bold">1</span>), (<span style="background-color: #fff0f0">&#39;v53&#39;</span>,<span style="color: #0000DD; font-weight: bold">9</span>), (<span style="background-color: #fff0f0">&#39;v54&#39;</span>,<span style="color: #0000DD; font-weight: bold">3</span>), (<span style="background-color: #fff0f0">&#39;v55&#39;</span>,<span style="color: #0000DD; font-weight: bold">2</span>), (<span style="background-color: #fff0f0">&#39;v58&#39;</span>,<span style="color: #0000DD; font-weight: bold">6</span>), (<span style="background-color: #fff0f0">&#39;v59&#39;</span>,<span style="color: #0000DD; font-weight: bold">5</span>),
+          (<span style="background-color: #fff0f0">&#39;v61&#39;</span>,<span style="color: #0000DD; font-weight: bold">8</span>), (<span style="background-color: #fff0f0">&#39;v64&#39;</span>,<span style="color: #0000DD; font-weight: bold">1</span>), (<span style="background-color: #fff0f0">&#39;v68&#39;</span>,<span style="color: #0000DD; font-weight: bold">7</span>), (<span style="background-color: #fff0f0">&#39;v62&#39;</span>,<span style="color: #0000DD; font-weight: bold">3</span>),
+          (<span style="background-color: #fff0f0">&#39;v71&#39;</span>,<span style="color: #0000DD; font-weight: bold">4</span>), (<span style="background-color: #fff0f0">&#39;v72&#39;</span>,<span style="color: #0000DD; font-weight: bold">9</span>), (<span style="background-color: #fff0f0">&#39;v75&#39;</span>,<span style="color: #0000DD; font-weight: bold">1</span>), (<span style="background-color: #fff0f0">&#39;v77&#39;</span>,<span style="color: #0000DD; font-weight: bold">5</span>), (<span style="background-color: #fff0f0">&#39;v78&#39;</span>,<span style="color: #0000DD; font-weight: bold">8</span>),
+          (<span style="background-color: #fff0f0">&#39;v81&#39;</span>,<span style="color: #0000DD; font-weight: bold">6</span>), (<span style="background-color: #fff0f0">&#39;v82&#39;</span>,<span style="color: #0000DD; font-weight: bold">8</span>), (<span style="background-color: #fff0f0">&#39;v83&#39;</span>,<span style="color: #0000DD; font-weight: bold">2</span>), (<span style="background-color: #fff0f0">&#39;v84&#39;</span>,<span style="color: #0000DD; font-weight: bold">9</span>), (<span style="background-color: #fff0f0">&#39;v89&#39;</span>,<span style="color: #0000DD; font-weight: bold">4</span>),
+          (<span style="background-color: #fff0f0">&#39;v94&#39;</span>,<span style="color: #0000DD; font-weight: bold">4</span>), (<span style="background-color: #fff0f0">&#39;v95&#39;</span>,<span style="color: #0000DD; font-weight: bold">8</span>), (<span style="background-color: #fff0f0">&#39;v96&#39;</span>,<span style="color: #0000DD; font-weight: bold">3</span>), (<span style="background-color: #fff0f0">&#39;v98&#39;</span>,<span style="color: #0000DD; font-weight: bold">9</span>), (<span style="background-color: #fff0f0">&#39;v99&#39;</span>,<span style="color: #0000DD; font-weight: bold">6</span>)
+          ]
+
+reduced_puzzle <span style="color: #333333">=</span> [(<span style="background-color: #fff0f0">&#39;v11&#39;</span>,<span style="color: #0000DD; font-weight: bold">9</span>), (<span style="background-color: #fff0f0">&#39;v12&#39;</span>,<span style="color: #0000DD; font-weight: bold">5</span>),
+          (<span style="background-color: #fff0f0">&#39;v22&#39;</span>,<span style="color: #0000DD; font-weight: bold">2</span>), (<span style="background-color: #fff0f0">&#39;v23&#39;</span>,<span style="color: #0000DD; font-weight: bold">1</span>), (<span style="background-color: #fff0f0">&#39;v24&#39;</span>,<span style="color: #0000DD; font-weight: bold">8</span>),
+          (<span style="background-color: #fff0f0">&#39;v31&#39;</span>,<span style="color: #0000DD; font-weight: bold">3</span>), (<span style="background-color: #fff0f0">&#39;v35&#39;</span>,<span style="color: #0000DD; font-weight: bold">4</span>), (<span style="background-color: #fff0f0">&#39;v36&#39;</span>,<span style="color: #0000DD; font-weight: bold">2</span>), (<span style="background-color: #fff0f0">&#39;v37&#39;</span>,<span style="color: #0000DD; font-weight: bold">1</span>),
+          (<span style="background-color: #fff0f0">&#39;v41&#39;</span>,<span style="color: #0000DD; font-weight: bold">2</span>), (<span style="background-color: #fff0f0">&#39;v42&#39;</span>,<span style="color: #0000DD; font-weight: bold">4</span>), (<span style="background-color: #fff0f0">&#39;v45&#39;</span>,<span style="color: #0000DD; font-weight: bold">7</span>),
+          (<span style="background-color: #fff0f0">&#39;v51&#39;</span>,<span style="color: #0000DD; font-weight: bold">1</span>), (<span style="background-color: #fff0f0">&#39;v53&#39;</span>,<span style="color: #0000DD; font-weight: bold">9</span>), (<span style="background-color: #fff0f0">&#39;v54&#39;</span>,<span style="color: #0000DD; font-weight: bold">3</span>), (<span style="background-color: #fff0f0">&#39;v55&#39;</span>,<span style="color: #0000DD; font-weight: bold">2</span>),
+          (<span style="background-color: #fff0f0">&#39;v61&#39;</span>,<span style="color: #0000DD; font-weight: bold">8</span>), (<span style="background-color: #fff0f0">&#39;v64&#39;</span>,<span style="color: #0000DD; font-weight: bold">1</span>),
+          (<span style="background-color: #fff0f0">&#39;v71&#39;</span>,<span style="color: #0000DD; font-weight: bold">4</span>), (<span style="background-color: #fff0f0">&#39;v72&#39;</span>,<span style="color: #0000DD; font-weight: bold">9</span>), (<span style="background-color: #fff0f0">&#39;v75&#39;</span>,<span style="color: #0000DD; font-weight: bold">1</span>),
+          (<span style="background-color: #fff0f0">&#39;v81&#39;</span>,<span style="color: #0000DD; font-weight: bold">6</span>), (<span style="background-color: #fff0f0">&#39;v82&#39;</span>,<span style="color: #0000DD; font-weight: bold">8</span>), (<span style="background-color: #fff0f0">&#39;v83&#39;</span>,<span style="color: #0000DD; font-weight: bold">2</span>),
+          (<span style="background-color: #fff0f0">&#39;v94&#39;</span>,<span style="color: #0000DD; font-weight: bold">4</span>), (<span style="background-color: #fff0f0">&#39;v95&#39;</span>,<span style="color: #0000DD; font-weight: bold">8</span>), (<span style="background-color: #fff0f0">&#39;v96&#39;</span>,<span style="color: #0000DD; font-weight: bold">3</span>),
+          ]
+pos <span style="color: #333333">=</span> {}
+groups <span style="color: #333333">=</span> {}
+colorForNode <span style="color: #333333">=</span> {}
+<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+    <span style="color: #008800; font-weight: bold">for</span> j <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+        pos[<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j)] <span style="color: #333333">=</span> [j,<span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #333333">-</span> i]
+        colorForNode[<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j)] <span style="color: #333333">=</span> [<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">2</span>,<span style="color: #0000DD; font-weight: bold">3</span>,<span style="color: #0000DD; font-weight: bold">4</span>,<span style="color: #0000DD; font-weight: bold">5</span>,<span style="color: #0000DD; font-weight: bold">6</span>,<span style="color: #0000DD; font-weight: bold">7</span>,<span style="color: #0000DD; font-weight: bold">8</span>,<span style="color: #0000DD; font-weight: bold">9</span>]
+
+initialize_graph_color(G, puzzle, colorForNode)
+
+<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+    groups[i] <span style="color: #333333">=</span> [node <span style="color: #008800; font-weight: bold">for</span> node, data <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>nodes(data<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">True</span>) <span style="color: #008800; font-weight: bold">if</span> <span style="background-color: #fff0f0">&#39;number&#39;</span> <span style="color: #000000; font-weight: bold">in</span> data <span style="color: #000000; font-weight: bold">and</span> data[<span style="background-color: #fff0f0">&#39;number&#39;</span>] <span style="color: #333333">==</span> i]
+
+wp_algorithm(G, colorForNode)
+<span style="color: #007020">print</span>([node <span style="color: #008800; font-weight: bold">for</span> node, data <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>nodes(data<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">True</span>) <span style="color: #008800; font-weight: bold">if</span> <span style="background-color: #fff0f0">&#39;number&#39;</span> <span style="color: #000000; font-weight: bold">not</span> <span style="color: #000000; font-weight: bold">in</span> data])
+create_plotly_colored_graph(G, pos, groups,
+<span style="background-color: #fff0f0">&#39;sudoku-starting-state&#39;</span>,
+<span style="background-color: #fff0f0">&#39;Sudoku Problem - Graph Coloration Algorithm&#39;</span>,
+<span style="background-color: #fff0f0">&quot;Sudoku Problem Example to be used by Welsh-Powell&#39;s Graph Coloration Algorithm&quot;</span>)
+
+groups <span style="color: #333333">=</span> {}
+<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+    groups[i] <span style="color: #333333">=</span> [node <span style="color: #008800; font-weight: bold">for</span> node, data <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>nodes(data<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">True</span>) <span style="color: #008800; font-weight: bold">if</span> <span style="background-color: #fff0f0">&#39;number&#39;</span> <span style="color: #000000; font-weight: bold">in</span> data <span style="color: #000000; font-weight: bold">and</span> data[<span style="background-color: #fff0f0">&#39;number&#39;</span>] <span style="color: #333333">==</span> i]
+create_plotly_colored_graph(G, pos, groups,
+<span style="background-color: #fff0f0">&#39;sudoku-solved&#39;</span>,
+<span style="background-color: #fff0f0">&#39;Sudoku Problem - Graph Coloration Algorithm&#39;</span>,
+<span style="background-color: #fff0f0">&quot;Sudoku Problem Solved by Welsh-Powell&#39;s Graph Coloration Algorithm&quot;</span>)
+
+G <span style="color: #333333">=</span> generate_sudoku_graph()
+
+pos <span style="color: #333333">=</span> {}
+groups <span style="color: #333333">=</span> {}
+colorForNode <span style="color: #333333">=</span> {}
+<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+    <span style="color: #008800; font-weight: bold">for</span> j <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+        pos[<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j)] <span style="color: #333333">=</span> [j,<span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #333333">-</span> i]
+        colorForNode[<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j)] <span style="color: #333333">=</span> [<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">2</span>,<span style="color: #0000DD; font-weight: bold">3</span>,<span style="color: #0000DD; font-weight: bold">4</span>,<span style="color: #0000DD; font-weight: bold">5</span>,<span style="color: #0000DD; font-weight: bold">6</span>,<span style="color: #0000DD; font-weight: bold">7</span>,<span style="color: #0000DD; font-weight: bold">8</span>,<span style="color: #0000DD; font-weight: bold">9</span>]
+
+initialize_graph_color(G, puzzle, colorForNode)
+
+wp_algorithm(G, colorForNode)
+groups <span style="color: #333333">=</span> {}
+<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+    groups[i] <span style="color: #333333">=</span> [node <span style="color: #008800; font-weight: bold">for</span> node, data <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>nodes(data<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">True</span>) <span style="color: #008800; font-weight: bold">if</span> <span style="background-color: #fff0f0">&#39;number&#39;</span> <span style="color: #000000; font-weight: bold">in</span> data <span style="color: #000000; font-weight: bold">and</span> data[<span style="background-color: #fff0f0">&#39;number&#39;</span>] <span style="color: #333333">==</span> i]
+create_plotly_colored_graph(G, pos, groups,
+<span style="background-color: #fff0f0">&#39;sudoku-solved2&#39;</span>,
+<span style="background-color: #fff0f0">&#39;Sudoku Problem - Graph Coloration Algorithm&#39;</span>,
+<span style="background-color: #fff0f0">&quot;Sudoku Problem Solved by Welsh-Powell&#39;s Graph Coloration Algorithm - 2th Run&quot;</span>)
+
+G <span style="color: #333333">=</span> generate_sudoku_graph()
+
+pos <span style="color: #333333">=</span> {}
+groups <span style="color: #333333">=</span> {}
+colorForNode <span style="color: #333333">=</span> {}
+<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+    <span style="color: #008800; font-weight: bold">for</span> j <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+        pos[<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j)] <span style="color: #333333">=</span> [j,<span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #333333">-</span> i]
+        colorForNode[<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j)] <span style="color: #333333">=</span> [<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">2</span>,<span style="color: #0000DD; font-weight: bold">3</span>,<span style="color: #0000DD; font-weight: bold">4</span>,<span style="color: #0000DD; font-weight: bold">5</span>,<span style="color: #0000DD; font-weight: bold">6</span>,<span style="color: #0000DD; font-weight: bold">7</span>,<span style="color: #0000DD; font-weight: bold">8</span>,<span style="color: #0000DD; font-weight: bold">9</span>]
+
+initialize_graph_color(G, puzzle, colorForNode)
+
+wp_algorithm(G, colorForNode)
+groups <span style="color: #333333">=</span> {}
+<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+    groups[i] <span style="color: #333333">=</span> [node <span style="color: #008800; font-weight: bold">for</span> node, data <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>nodes(data<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">True</span>) <span style="color: #008800; font-weight: bold">if</span> <span style="background-color: #fff0f0">&#39;number&#39;</span> <span style="color: #000000; font-weight: bold">in</span> data <span style="color: #000000; font-weight: bold">and</span> data[<span style="background-color: #fff0f0">&#39;number&#39;</span>] <span style="color: #333333">==</span> i]
+create_plotly_colored_graph(G, pos, groups,
+<span style="background-color: #fff0f0">&#39;sudoku-solved3&#39;</span>,
+<span style="background-color: #fff0f0">&#39;Sudoku Problem - Graph Coloration Algorithm&#39;</span>,
+<span style="background-color: #fff0f0">&quot;Sudoku Problem Solved by Welsh-Powell&#39;s Graph Coloration Algorithm - 3th Run&quot;</span>)
+
+G <span style="color: #333333">=</span> generate_sudoku_graph()
+
+pos <span style="color: #333333">=</span> {}
+groups <span style="color: #333333">=</span> {}
+colorForNode <span style="color: #333333">=</span> {}
+<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+    <span style="color: #008800; font-weight: bold">for</span> j <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+        pos[<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j)] <span style="color: #333333">=</span> [j,<span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #333333">-</span> i]
+        colorForNode[<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j)] <span style="color: #333333">=</span> [<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">2</span>,<span style="color: #0000DD; font-weight: bold">3</span>,<span style="color: #0000DD; font-weight: bold">4</span>,<span style="color: #0000DD; font-weight: bold">5</span>,<span style="color: #0000DD; font-weight: bold">6</span>,<span style="color: #0000DD; font-weight: bold">7</span>,<span style="color: #0000DD; font-weight: bold">8</span>,<span style="color: #0000DD; font-weight: bold">9</span>]
+
+initialize_graph_color(G, puzzle, colorForNode)
+
+wp_algorithm(G, colorForNode)
+groups <span style="color: #333333">=</span> {}
+<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+    groups[i] <span style="color: #333333">=</span> [node <span style="color: #008800; font-weight: bold">for</span> node, data <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>nodes(data<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">True</span>) <span style="color: #008800; font-weight: bold">if</span> <span style="background-color: #fff0f0">&#39;number&#39;</span> <span style="color: #000000; font-weight: bold">in</span> data <span style="color: #000000; font-weight: bold">and</span> data[<span style="background-color: #fff0f0">&#39;number&#39;</span>] <span style="color: #333333">==</span> i]
+create_plotly_colored_graph(G, pos, groups,
+<span style="background-color: #fff0f0">&#39;sudoku-solved4&#39;</span>,
+<span style="background-color: #fff0f0">&#39;Sudoku Problem - Graph Coloration Algorithm&#39;</span>,
+<span style="background-color: #fff0f0">&quot;Sudoku Problem Solved by Welsh-Powell&#39;s Graph Coloration Algorithm - 4th Run&quot;</span>)
+
+G <span style="color: #333333">=</span> generate_sudoku_graph()
+
+pos <span style="color: #333333">=</span> {}
+groups <span style="color: #333333">=</span> {}
+colorForNode <span style="color: #333333">=</span> {}
+<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+    <span style="color: #008800; font-weight: bold">for</span> j <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+        pos[<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j)] <span style="color: #333333">=</span> [j,<span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #333333">-</span> i]
+        colorForNode[<span style="background-color: #fff0f0">&#39;v{}{}&#39;</span><span style="color: #333333">.</span>format(i,j)] <span style="color: #333333">=</span> [<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">2</span>,<span style="color: #0000DD; font-weight: bold">3</span>,<span style="color: #0000DD; font-weight: bold">4</span>,<span style="color: #0000DD; font-weight: bold">5</span>,<span style="color: #0000DD; font-weight: bold">6</span>,<span style="color: #0000DD; font-weight: bold">7</span>,<span style="color: #0000DD; font-weight: bold">8</span>,<span style="color: #0000DD; font-weight: bold">9</span>]
+
+initialize_graph_color(G, reduced_puzzle, colorForNode)
+
+<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+    groups[i] <span style="color: #333333">=</span> [node <span style="color: #008800; font-weight: bold">for</span> node, data <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>nodes(data<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">True</span>) <span style="color: #008800; font-weight: bold">if</span> <span style="background-color: #fff0f0">&#39;number&#39;</span> <span style="color: #000000; font-weight: bold">in</span> data <span style="color: #000000; font-weight: bold">and</span> data[<span style="background-color: #fff0f0">&#39;number&#39;</span>] <span style="color: #333333">==</span> i]
+
+wp_algorithm(G, colorForNode)
+<span style="color: #007020">print</span>([node <span style="color: #008800; font-weight: bold">for</span> node, data <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>nodes(data<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">True</span>) <span style="color: #008800; font-weight: bold">if</span> <span style="background-color: #fff0f0">&#39;number&#39;</span> <span style="color: #000000; font-weight: bold">not</span> <span style="color: #000000; font-weight: bold">in</span> data])
+create_plotly_colored_graph(G, pos, groups,
+<span style="background-color: #fff0f0">&#39;sudoku-less-starting-state&#39;</span>,
+<span style="background-color: #fff0f0">&#39;Sudoku Problem - Graph Coloration Algorithm&#39;</span>,
+<span style="background-color: #fff0f0">&quot;Sudoku Problem Example to be used by Welsh-Powell&#39;s Graph Coloration Algorithm with less starting numbers&quot;</span>)
+
+groups <span style="color: #333333">=</span> {}
+<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(<span style="color: #0000DD; font-weight: bold">1</span>,<span style="color: #0000DD; font-weight: bold">10</span>):
+    groups[i] <span style="color: #333333">=</span> [node <span style="color: #008800; font-weight: bold">for</span> node, data <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>nodes(data<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">True</span>) <span style="color: #008800; font-weight: bold">if</span> <span style="background-color: #fff0f0">&#39;number&#39;</span> <span style="color: #000000; font-weight: bold">in</span> data <span style="color: #000000; font-weight: bold">and</span> data[<span style="background-color: #fff0f0">&#39;number&#39;</span>] <span style="color: #333333">==</span> i]
+create_plotly_colored_graph(G, pos, groups,
+<span style="background-color: #fff0f0">&#39;sudoku-solved-less&#39;</span>,
+<span style="background-color: #fff0f0">&#39;Sudoku Problem - Graph Coloration Algorithm&#39;</span>,
+<span style="background-color: #fff0f0">&quot;Sudoku Problem Solved by Welsh-Powell&#39;s Graph Coloration Algorithm with less starting numbers&quot;</span>)
+</pre></td></tr></table></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <p class="text-center"><b>Código 4.5</b> Programa principal que gera vários grafos com a solução do sudoku</p>
+            <p>Nesse código é gerado um grafo que representa a configuração inicial da grade do Sudoku, utilizando o vetor <b>puzzle</b> definido na linha 4, que indica as colorações já existentes no grafo. Ele é passado para a função <b>initialize_graph_color()</b>, que vai efetivamente fazer a pré-coloração da grade inicial. Após isso, executamos o Algoritmo WP 4 vezes, sempre tomando o cuidado de re-criar o grafo original para que não ocorram problemas. Depois, utilizamos uma versão reduzida da grade do Sudoku, descrita pelo vetor <b>reduced_puzzle</b> na linha 15, para criar uma grafo representando essa configuração inicial e um grafo resultante do Algoritmo WP com essa configuração.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <iframe width="900" height="800" frameborder="0" scrolling="no" src="//plot.ly/~lucasaciole/60.embed"></iframe>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <iframe width="900" height="800" frameborder="0" scrolling="no" src="//plot.ly/~lucasaciole/62.embed"></iframe>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <iframe width="900" height="800" frameborder="0" scrolling="no" src="//plot.ly/~lucasaciole/64.embed"></iframe>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <iframe width="900" height="800" frameborder="0" scrolling="no" src="//plot.ly/~lucasaciole/66.embed"></iframe>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <iframe width="900" height="800" frameborder="0" scrolling="no" src="//plot.ly/~lucasaciole/68.embed"></iframe>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <iframe width="900" height="800" frameborder="0" scrolling="no" src="//plot.ly/~lucasaciole/70.embed"></iframe>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <iframe width="900" height="800" frameborder="0" scrolling="no" src="//plot.ly/~lucasaciole/72.embed"></iframe>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+             <p>Pode-se observar no ultimo grafo que não foi possível encontrar uma solução para o problema reduzido, pois o algoritmo cai em vértices com mais de uma possibilidade de número e, por definição, escolhe o primeiro número disponível. Então dependendo de como foi organizada a lista de vértices a serem selecionados, ele pode ou não encontrar a solução correta para o problema.</p>
+            <p>
+                De acordo com <a href="http://www.abril.com.br/noticia/diversao/no_168207.shtml" target="_blank">um artigo publicado pela Editora Abril</a>, o número de valores minimo para que um problema de Sudoku tenha solução única é 17. Logo, se colocarmos apenas 9 valores o algoritmo tentará completar todos os espaços da grade, podendo até conseguindo chegar numa das soluções possíveis, mas o resultado pode mudar dependendo de cada execução.
+            </p>
+            <p>Todos os grafos foram plotados utilizando o <a href="https://plot.ly/" target="blank">plot.ly</a>. Você pode saber mais sobre a representação de grafos pelo plot.ly <a href="https://plot.ly/ipython-notebooks/network-graphs/" target="blank">clicando aqui</a>.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

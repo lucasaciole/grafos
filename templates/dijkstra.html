@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row text-center">
         <div class="col-lg-12">
-            <h1>T3</h1>
+            <h1>T4</h1>
             <p class="lead">Árvore de Caminhos Minimos e Algoritmo de Djikstra</p>
         </div>
     </div>
@@ -204,7 +204,7 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <p class="text-center"><b>Código 2.2</b> Algoritmo de Dijkstra em Python.</p>
+            <p class="text-center"><b>Código 3.2</b> Algoritmo de Dijkstra em Python.</p>
             <p> Se você acompanhou o nosso artigo <a href="/areadetrabalho/projects/mst-prim">T3 - Árvore de Caminhos Minimos e Algoritmo de Prim</a>, vai perceber que a unica diferença está no método relax; Enquanto no Algoritmo de Prim o "custo de entrada" de um vértice é apenas o peso da menor aresta ligada a ele, no Algortimo de Dijkstra nós somamos o custo de entrada com o peso da meor aresta ligada a ele. Isso resulta num custo de entrada que indica o peso da árvore inteira nos nós folhas da árvore resultante pelo Djikstra.</p>
             <p>Com isso, podemos rodar o algoritmo de Dijkstra passando um Grafo e ele retornará um novo grafo que representa a MST do grafo dado. O script python de exemplo seria:</p>
         </div>
@@ -314,7 +314,7 @@ create_plotly_graph(dijkstra_G_k_3, pos,
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <p class="text-center"><b>Código 2.3</b> Exemplo de extração de MST usando o Algoritmo de Dijkstra em Python.</p>
+            <p class="text-center"><b>Código 3.3</b> Exemplo de extração de MST usando o Algoritmo de Dijkstra em Python.</p>
             <p>A linha 7 do código inicializa o grafo ponderado (que contém arestas com peso), que é um exemplo famoso conhecido como "Davis' Southern Club Women Social Network"</p>
             <p>Na linha 10 extraimos a MST pelo algoritmo de Dijkstra mostrado no projeto. O restante do script publica as informações no <a href="https://plot.ly/" target="blank">plot.ly</a>, uma plataforma de colaboração científica que permite a representação variada de qualquer conjunto de informações. No caso, estamos enviando o grafo para que ele desenhe como mostrado logo abaixo:</p>
         </div>
