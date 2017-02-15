@@ -30,5 +30,12 @@
 		"path": "not-available",
 		"type": "Artigo",
 		"image": "/static/img/grafo_planar.png"	
+	},
+	{
+		"name": "Curso de Python Iniciante(em inglês)",
+		"url": "https://www.codeschool.com/learn/python",
+		"type": "Link",
+		"image": "/static/img/code_school.png"
+	
 	}]
 }

@@ -32,8 +32,8 @@ def projects(name):
     if name == "mst-dijkstra":
         return render_template("dijkstra.html")
 
-    if name == "caxeiro-viajante":
-        return render_template("caxeiro.html")
+    if name == "metodo-hungaro":
+        return render_template("unavailable_article.html")
 
     return render_template("404.html"), 404
 
