@@ -1,18 +1,25 @@
 from flask import Flask, render_template, url_for, redirect
 import json
 app = Flask(__name__)
-app.config["APPLICATION_ROOT"] = "/areadetrabalho"
 
 @app.route('/')
 def root():
     return redirect(url_for('index'))
 
+@app.route('/areadetrabalho/article/<article_name>')
+def unavailable_article(article_name):
+    return render_template("unavailable_article.html")
+
 @app.route('/areadetrabalho/')
 def index():
-    with open('/home/lucassug/code/grafos/articles.json') as data_file:
+    with open('articles.json') as data_file:
         articles = json.load(data_file)
 
     return render_template("index.html", articles=articles['articles'])
+
+@app.route('/about/')
+def about():
+    return render_template("alunos.html")
 
 @app.route('/areadetrabalho/projects/<name>/')
 def projects(name):

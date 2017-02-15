@@ -1,47 +1,27 @@
 {
 	"articles": [{
-		"name": "Grafos Eulerianos",
-		"path": "eulerianos",
-		"image": "static/img/grafo_euleriano.png"
-	}, 
-	{
-		"name":"Grafos Hamiltonianos",
-		"path":"hamiltonianos",
-		"image": "static/img/grafo_hamiltoniano.gif"
-	},
-	{
-		"name":"Grafos Planares",
-		"path":"planaridade",
-		"image": "static/img/grafo_planar.png"	
+		"name": "Representando Redes Sociais com o Plot.ly",
+		"url": "https://plot.ly/ipython-notebooks/network-graphs/",
+		"type": "Link",
+		"image": "/static/img/grafo_planar.png"
+	
 	},
 	{
 		"name": "Grafos Eulerianos",
-		"path": "eulerianos",
-		"image": "static/img/grafo_euleriano.png"
+		"path": "not-available",
+		"type": "Artigo",
+		"image": "/static/img/grafo_euleriano.png"
 	}, 
 	{
 		"name":"Grafos Hamiltonianos",
-		"path":"hamiltonianos",
-		"image": "static/img/grafo_hamiltoniano.gif"
+		"path":"not-available",
+		"type": "Artigo",
+		"image": "/static/img/grafo_hamiltoniano.gif"
 	},
 	{
 		"name":"Grafos Planares",
-		"path":"planaridade",
-		"image": "static/img/grafo_planar.png"	
-	},
-	{
-		"name": "Grafos Eulerianos",
-		"path": "eulerianos",
-		"image": "static/img/grafo_euleriano.png"
-	}, 
-	{
-		"name":"Grafos Hamiltonianos",
-		"path":"hamiltonianos",
-		"image": "static/img/grafo_hamiltoniano.gif"
-	},
-	{
-		"name":"Grafos Planares",
-		"path":"planaridade",
-		"image": "static/img/grafo_planar.png"	
+		"path": "not-available",
+		"type": "Artigo",
+		"image": "/static/img/grafo_planar.png"	
 	}]
 }

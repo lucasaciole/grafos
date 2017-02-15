@@ -1,35 +1,201 @@
 {% extends "article_template.html" %}
 {% block content %}
+<div class="container">
     <div class="row text-center">
         <div class="col-lg-12">
             <h1>T3</h1>
-            <p class="lead">Snakes and Ladders</p>
+            <p class="lead">Árvore de Caminhos Minimos e Algoritmo de Prim</p>
         </div>
     </div>
-    <div class="row text-center">
+    <div class="row">
         <div class="col-lg-12">
             <h1>MST - A Árvore de Caminhos Minimos (Minimum Spanning Tree)</h1>
-            <p class="">Snakes and Ladders é um famoso jogo de tabuleiro em que a cada rodada um jogador joga uma moeda não viciada e avança 1 casa se obtiver cara ou avança 2 casas se obtiver coroa. Se o jogador para no pé da escada, então ele imediatamente sobe para o topo da escada. Se o jogador cai na boca de um cobra então ele imediatamente escorrega para o rabo. O jogador sempre inicia no quadrado de número 1. O jogo termina quando ele atinge o quadrado de número 36.
+            <p>
+                Árvores são grafos especiais com diversas propriedades únicas. Um tipo particular de árvore é a <b>Árvore de Caminhos Mínimos</b>, ou <b>Árvore Geradora Mínima</b>. Uma Árvore Geradora Mínima G' de um Grafo G = (V,E) é um subgrafo de G tal que G' = (V,E') onde o conjunto E' é um subconjunto de E com o conjunto de arestas cujo peso total seja o menor possivel, ligando todos os vertices existentes em V.
             </p>
-        </div>
-    </div>
-    <div class="row text-center">
-        <div class="col-lg-12 text-center">
-            <img src="/static/img/snakesladders.jpg" placeholder="tabuleiro do snakes and ladders" width="600px" />
-        </div>
-    </div>
+            <p> Existem diversos algoritmos para encontar a MST de um Grafo. No caso desse projeto, será utilizado o algorítmo de Prim.</p>
+            <p> O Algoritmo de Prim é um algoritmo guloso desenvolvido em 1930 pelo matemático Vojtěch Jarník e depois pelo cientista da computação Robert Clay Prim em 1957 e redescoberto por Edsger Dijkstra em 1959. Ele não é capaz de encontrar uma MST num grafo desconexo, que é um grafo que possui subconjuntos de vertices desconexos entre si, ou seja, pode ser ser dividido em dois subgrafos indepententes.</p>
 
-    <div class="row text-center">
-        <div class="col-lg-12 text-center">
-            <p> O objetivo deste trabalho é encontrar o diagrama de estados que representa o jogo.</p>
-            
+            <p>Podemos descrever o Algoritmo de Prim com o seguinte Pseudo-código:</p>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">prim(G) # G é grafo
+    # Escolhe qualquer vértice do grafo como vértice inicial/de partida
+    s ← seleciona-um-elemento(vertices(G))
 
-    <div class="row text-center">
-        <div class="col-lg-12 text-center">
-            <iframe width="900" height="800" frameborder="0" scrolling="no" src="//plot.ly/~lucasaciole/6.embed"></iframe>
+    para todo v ∈ vertices(G)
+        π[v] ← nulo
+    Q ← {(0, s)}
+    S ← ø
+
+    enquanto Q ≠ ø
+        v ← extrair-mín(Q)
+        S ← S ∪ {v}
+
+        para cada u adjacente a v
+            se u ∉ S e pesoDaAresta(π[u]→u) &gt; pesoDaAresta(v→u)
+                Q ← Q \ {(pesoDaAresta(π[u]→u), u)}
+                Q ← Q ∪ {(pesoDaAresta(v→u), u)}
+                π[u] ← v
+
+    retorna {(π[v], v) | v ∈ vertices(G) e π[v] ≠ nulo}
+</pre></div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="text-center"><b>Código 2.1</b> Algoritmo de Prim em Pseudocódigo. (Fonte: Wikipédia)</p>
+            <p>Onde π[v] indica o predecessor de v. Após o término do algoritmo, para cada v pertencente aos vértices de G, a par (π[v],v) representa uma aresta selecionada para a árvore geradora mínima se π[v] ≠ nulo. O algoritmo retorna o conjunto dessas arestas, formado pelos pares (π[v], v). Q é um conjunto de pares (peso, vértice). O método extrair-mín(Q) extrai o menor elemento de Q; um par (a,b) é menor que um par (c,d) se a < c ou se a = c e b < d. S é um conjunto que armazena os vértices cujas adjacências já foram analisadas.</p>
+            <p>Esse pseudocódigo, transformado em python, é escrito da seguinte forma:</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">copy</span>
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">networkx</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #0e84b5; font-weight: bold">nx</span>
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">prim_algorithm</span>(G):
+    <span style="color: #DD4422">&quot;&quot;&quot;Return a minimum spanning tree of an undirected connected</span>
+<span style="color: #DD4422">    weighted graph using Prim&#39;s Algorithm.</span>
 
+<span style="color: #DD4422">    A minimum spanning tree is a subgraph of the graph (a tree) with</span>
+<span style="color: #DD4422">    the minimum sum of edge weights.</span>
+<span style="color: #DD4422">    Parameters</span>
+<span style="color: #DD4422">    ----------</span>
+<span style="color: #DD4422">    G : NetworkX Graph</span>
+
+<span style="color: #DD4422">    Returns</span>
+<span style="color: #DD4422">    -------</span>
+<span style="color: #DD4422">    prim_MST : NetworkX Graph</span>
+<span style="color: #DD4422">       A minimum spanning tree</span>
+<span style="color: #DD4422">    &quot;&quot;&quot;</span>
+    <span style="color: #888888"># Generates the networkx Graph that will be returned</span>
+    prim_MST <span style="color: #333333">=</span> nx<span style="color: #333333">.</span>Graph()
+
+    <span style="color: #888888"># Initializes all nodes predecessors as None, also adding those nodes to our MST networkx Graph</span>
+    <span style="color: #008800; font-weight: bold">for</span> node <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>nodes():
+        prim_MST<span style="color: #333333">.</span>add_node(node)
+        G<span style="color: #333333">.</span>node[node][<span style="background-color: #fff0f0">&#39;predecessor&#39;</span>] <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">None</span>
+        G<span style="color: #333333">.</span>node[node][<span style="background-color: #fff0f0">&#39;entry_cost&#39;</span>] <span style="color: #333333">=</span> <span style="color: #007020">float</span>(<span style="background-color: #fff0f0">&#39;inf&#39;</span>)
+
+    <span style="color: #888888"># Chooses first node to start algorithm</span>
+    G<span style="color: #333333">.</span>node[G<span style="color: #333333">.</span>nodes()[<span style="color: #0000DD; font-weight: bold">0</span>]][<span style="background-color: #fff0f0">&#39;entry_cost&#39;</span>] <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>
+
+    Q <span style="color: #333333">=</span> copy<span style="color: #333333">.</span>deepcopy(G<span style="color: #333333">.</span>nodes())
+    S <span style="color: #333333">=</span> []
+    <span style="color: #008800; font-weight: bold">while</span> (<span style="color: #007020">len</span>(Q) <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">0</span>):
+        node <span style="color: #333333">=</span> extract_min_node(G, Q)
+        S<span style="color: #333333">.</span>append(node)
+        <span style="color: #008800; font-weight: bold">for</span> neighbor_node <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>neighbors(node):
+            <span style="color: #008800; font-weight: bold">if</span> neighbor_node <span style="color: #000000; font-weight: bold">in</span> Q <span style="color: #000000; font-weight: bold">and</span> G<span style="color: #333333">.</span>node[neighbor_node][<span style="background-color: #fff0f0">&#39;entry_cost&#39;</span>] <span style="color: #333333">&gt;</span> weight(G,node,neighbor_node):
+                G<span style="color: #333333">.</span>node[neighbor_node][<span style="background-color: #fff0f0">&#39;entry_cost&#39;</span>] <span style="color: #333333">=</span> weight(G,node,neighbor_node)
+                G<span style="color: #333333">.</span>node[neighbor_node][<span style="background-color: #fff0f0">&#39;predecessor&#39;</span>] <span style="color: #333333">=</span> node
+
+
+    <span style="color: #008800; font-weight: bold">for</span> node <span style="color: #000000; font-weight: bold">in</span> G<span style="color: #333333">.</span>nodes():
+        predecessor <span style="color: #333333">=</span> G<span style="color: #333333">.</span>node[node][<span style="background-color: #fff0f0">&#39;predecessor&#39;</span>]
+        w <span style="color: #333333">=</span> G<span style="color: #333333">.</span>node[node][<span style="background-color: #fff0f0">&#39;entry_cost&#39;</span>]
+        <span style="color: #008800; font-weight: bold">if</span> predecessor <span style="color: #000000; font-weight: bold">is</span> <span style="color: #000000; font-weight: bold">not</span> <span style="color: #008800; font-weight: bold">None</span>:
+            prim_MST<span style="color: #333333">.</span>add_edge(predecessor, node, weight<span style="color: #333333">=</span>w)
+                
+    <span style="color: #008800; font-weight: bold">return</span> prim_MST
+
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">extract_min_node</span>(G, Q):
+    min_priority <span style="color: #333333">=</span> <span style="color: #007020">float</span>(<span style="background-color: #fff0f0">&#39;inf&#39;</span>)
+    <span style="color: #008800; font-weight: bold">for</span> node <span style="color: #000000; font-weight: bold">in</span> Q:
+        <span style="color: #008800; font-weight: bold">if</span> G<span style="color: #333333">.</span>node[node][<span style="background-color: #fff0f0">&#39;entry_cost&#39;</span>] <span style="color: #333333">&lt;</span> min_priority:
+            min_node <span style="color: #333333">=</span> node
+    Q<span style="color: #333333">.</span>remove(min_node)
+    <span style="color: #008800; font-weight: bold">return</span> min_node
+
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">weight</span>(G, from_node, to_node):
+    <span style="color: #DD4422">&quot;&quot;&quot;Return weight of edge from from_node to to_node</span>
+<span style="color: #DD4422">    &quot;&quot;&quot;</span>
+    <span style="color: #008800; font-weight: bold">return</span> G<span style="color: #333333">.</span>edge[from_node][to_node][<span style="background-color: #fff0f0">&#39;weight&#39;</span>]
+</pre></div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="text-center"><b>Código 2.2</b> Algoritmo de Prim em Python.</p>
+            <p>A diferença na implementação em Python está na fila de prioridades Q: ao invés de utilizarmos a tupla (π[v] vértice) para comparação, salvamos o valor π[v] como o "custo de entrada" do vértice e então salvamos na fila Q apenas os vértices. Assim, a função <span style="color: #0066BB; font-weight: bold">extract_min_node</span>(G, Q): analisa os vértices da fila de prioridades e retira aquele que possui o menor "custo de entrada". Além disso, o predecessor também é salvo como informação do vértice ao invés de guardado numa função.</p>
+            <p>Com isso, podemos rodar o algoritmo de Prim passando um Grafo e ele retornará um novo grafo que representa a MST do grafo dado. O script python de exemplo seria:</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">prim_algorithm</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #0e84b5; font-weight: bold">prim</span>
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">dijkstra_algorithm</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #0e84b5; font-weight: bold">dijkstra</span>
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">networkx</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #0e84b5; font-weight: bold">nx</span>
+<span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">plotter</span> <span style="color: #008800; font-weight: bold">import</span> create_plotly_graph
+
+<span style="color: #888888"># Generates the sample graph from a edgelist</span>
+G <span style="color: #333333">=</span> nx<span style="color: #333333">.</span>read_weighted_edgelist(<span style="background-color: #fff0f0">&#39;Davis_southern_club_women-cooccurance.txt&#39;</span>)
+
+<span style="color: #888888"># Compare the Graph with its MST generated by Prim&#39;s Algorithm</span>
+prim_G <span style="color: #333333">=</span> prim<span style="color: #333333">.</span>prim_algorithm(G)
+pos  <span style="color: #333333">=</span> nx<span style="color: #333333">.</span>spring_layout(G,k<span style="color: #333333">=</span><span style="color: #6600EE; font-weight: bold">0.15</span>,iterations<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">20</span>)
+prim_pos <span style="color: #333333">=</span> nx<span style="color: #333333">.</span>spring_layout(prim_G,k<span style="color: #333333">=</span><span style="color: #6600EE; font-weight: bold">0.15</span>,iterations<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">20</span>)
+pos<span style="color: #333333">.</span>update(prim_pos)
+create_plotly_graph(G, pos,
+    <span style="background-color: #fff0f0">&#39;davis_southern_club_women_coocurance_prim&#39;</span>,
+    <span style="background-color: #fff0f0">&quot;Davis&#39; Southern Club Women Coocurance&quot;</span>, 
+    <span style="background-color: #fff0f0">&quot;Sample Weighted Undirected Graph for use in Prim&#39;s Algorithm.&quot;</span>)
+create_plotly_graph(prim_G, pos,
+    <span style="background-color: #fff0f0">&#39;davis_southern_club_women_coocurance_mst_prim&#39;</span>,
+    <span style="background-color: #fff0f0">&quot;MST for Davis&#39; Southern Club Women Coocurance&quot;</span>,
+    <span style="background-color: #fff0f0">&quot;MST found by Prim&#39;s Algorithm, starting with the {} node&quot;</span><span style="color: #333333">.</span>format(prim_G<span style="color: #333333">.</span>nodes()[<span style="color: #0000DD; font-weight: bold">0</span>]))
+</pre></td></tr></table></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="text-center"><b>Código 2.3</b> Exemplo de extração de MST usando o Algoritmo de Prim em Python.</p>
+            <p>A linha 7 do código inicializa o grafo ponderado (que contém arestas com peso), que é um exemplo famoso conhecido como "Davis' Southern Club Women Social Network"</p>
+            <p>Na linha 10 extraimos a MST pelo algoritmo de Prim mostrado no projeto. O restante do script publica as informações no <a href="https://plot.ly/" target="blank">plot.ly</a>, uma plataforma de colaboração científica que permite a representação variada de qualquer conjunto de informações. No caso, estamos enviando o grafo para que ele desenhe como mostrado logo abaixo:</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <iframe width="900" height="800" frameborder="0" scrolling="no" src="//plot.ly/~lucasaciole/34.embed"></iframe>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p> O grafo abaixo é a MST encontrada do grafo acima utilizando o Algoritmo de Prim:</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <iframe width="900" height="800" frameborder="0" scrolling="no" src="//plot.ly/~lucasaciole/36.embed"></iframe>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p> Você pode saber mais sobre a representação de grafos pelo plot.ly <a href="https://plot.ly/ipython-notebooks/network-graphs/" target="blank">clicando aqui</a>.</p>
+        </div>
+    </div>
+</div>
 {% endblock %}

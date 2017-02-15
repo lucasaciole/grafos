@@ -52,12 +52,16 @@
                             <div class="row no-gutter">
                                 {% for article in articles %}
                                     <div class="col-lg-4 col-sm-6">
-                                        <a href="/article/{{article['path']}}" class="article-box">
+                                        {% if article['url'] %}
+                                            <a href="{{article['url']}}" class="article-box" target="blank">
+                                        {% else %}
+                                            <a href="/areadetrabalho/article/{{article['path']}}" class="article-box">
+                                        {% endif %}
                                             <img src="{{article['image']}}" class="img-responsive" height="200" width="250" alt="">
                                             <div class="article-box-caption">
                                                 <div class="article-box-caption-content">
                                                     <div class="article-category text-faded">
-                                                        Artigo
+                                                        {{article['type']}}
                                                     </div>
                                                     <div class="article-name">
                                                         {{article['name']}}
